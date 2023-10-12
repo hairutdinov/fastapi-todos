@@ -19,5 +19,5 @@ python3 -m pip install -r requirements.txt
 ```
 - Running project
 ```bash
-./venv/bin/python -m todo_app.main
+./venv/bin/python -m app.main
 ```
