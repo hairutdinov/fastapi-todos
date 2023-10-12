@@ -1,11 +1,11 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 class TunedModel(BaseModel):
-    class Config:
-        """tells pydantic to convert even non dict obj to json"""
-
-        orm_mode = True
+    model_config: ConfigDict = ConfigDict(
+        # tells pydantic to convert even non dict obj to json
+        from_attributes=True
+    )
 
 
 class TodoBase(BaseModel):
