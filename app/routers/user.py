@@ -1,6 +1,6 @@
 from fastapi.routing import APIRouter
 from fastapi.exceptions import HTTPException
-from fastapi import Depends
+from fastapi import Depends, BackgroundTasks
 from sqlalchemy.orm import Session
 
 from .. import schemas
@@ -11,6 +11,12 @@ from ..database import get_db
 class EmailAlreadyRegistered(HTTPException):
     def __init__(self):
         super().__init__(status_code=400, detail="Email already registered")
+
+
+def send_email_notification(email: str, message: str):
+    with open('log.txt', 'w') as email_file:
+        content = f"notification for {email}: {message}"
+        email_file.write(content)
 
 
 router = APIRouter()
@@ -45,3 +51,9 @@ def create_todo_for_user(
 ):
     user_dal = UserDal(db)
     return user_dal.create_user_todo(user_id=user_id, todo=todo)
+
+
+@router.post("/send-notification/{email}")
+async def create_user(email: str, bgc_task: BackgroundTasks) -> dict:
+    bgc_task.add_task(send_email_notification, email=email, message="Some notification")
+    return {"message": "Notification sent in the background"}
