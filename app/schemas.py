@@ -10,7 +10,7 @@ class TunedModel(BaseModel):
 
 class TodoBase(BaseModel):
     title: str
-    description: str
+    description: str | None = None
     priority: int
 
 
