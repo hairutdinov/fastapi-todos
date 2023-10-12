@@ -8,10 +8,11 @@ from . import models
 from .database import engine
 from .routers import todo, user
 from .dependencies import get_token_header
+from .settings import DEBUG
 
-models.Base.metadata.create_all(bind=engine)
+# models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Todo App")
+app = FastAPI(title="Todo App", debug=True)
 
 main_api_router = APIRouter()
 
@@ -39,6 +40,5 @@ async def create_item(item: Item) -> Item:
     fake_db[item.id] = item
     return item
 
-
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=DEBUG)

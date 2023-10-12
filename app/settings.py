@@ -8,6 +8,8 @@ APP_DIR = ROOT_DIR / 'app'
 env = Env()
 env.read_envfile(ROOT_DIR / ".env")
 
+DEBUG = env.bool("DEBUG", default=True)
+
 DB_HOST = env.str("DB_HOST", default="localhost")
 DB_NAME = env.str("DB_NAME", default="todo")
 DB_USERNAME = env.str("DB_USERNAME", default="postgres")
