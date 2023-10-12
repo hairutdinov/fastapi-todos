@@ -21,3 +21,7 @@ python3 -m pip install -r requirements.txt
 ```bash
 ./venv/bin/python -m app.main
 ```
+- Create .env file from *.env.example* file
+```bash
+cp .env.example .env 
+```
