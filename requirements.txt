@@ -1,0 +1,14 @@
+fastapi>=0.100.0,<0.103.0
+pydantic>=2.4.0,<2.4.2
+uvicorn>=0.23.0,<0.23.2
+flake8
+flake8-bugbear
+pep8-naming
+pylint
+black
+sqlalchemy==1.4.45
+pydantic[email]
+envparse==0.2.0
+psycopg2==2.9.5
+alembic==1.9.0
+pre-commit==2.21.0
