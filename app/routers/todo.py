@@ -11,6 +11,6 @@ router = APIRouter()
 
 
 @router.get("/", response_model=list[schemas.Todo])
-def read_todos(skip: int = 0, limit: int = 100, db=db_dependency):
+def read_todos(db: db_dependency, skip: int = 0, limit: int = 100):
     todo_dal = TodoDal(db)
     return todo_dal.get_todos(skip=skip, limit=limit)

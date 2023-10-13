@@ -28,7 +28,7 @@ router = APIRouter()
 
 @router.post("/", response_model=schemas.User)
 def create_user(
-    user: schemas.UserCreate, db=db_dependency
+    user: schemas.UserCreate, db: db_dependency
 ) -> schemas.User:
     user_dal = UserDal(db)
     db_user = user_dal.get_user_by_email(email=user.email)
@@ -38,7 +38,7 @@ def create_user(
 
 
 @router.get("/", response_model=list[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db=db_dependency):
+def read_users(db: db_dependency, skip: int = 0, limit: int = 100):
     user_dal = UserDal(db)
     return user_dal.get_users(skip=skip, limit=limit)
 
@@ -51,14 +51,14 @@ async def read_users_me(
 
 
 @router.get("/{user_id}", response_model=schemas.User)
-def read_user(user_id: Annotated[int, Path(gt=0)], db=db_dependency):
+def read_user(user_id: Annotated[int, Path(gt=0)], db: db_dependency):
     user_dal = UserDal(db)
     return user_dal.get_user(user_id)
 
 
 @router.post("/{user_id}/todos", response_model=schemas.Todo)
 def create_todo_for_user(
-    user_id: int, todo: schemas.TodoCreate, db=db_dependency
+    user_id: int, todo: schemas.TodoCreate, db: db_dependency
 ):
     user_dal = UserDal(db)
     return user_dal.create_user_todo(user_id=user_id, todo=todo)

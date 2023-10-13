@@ -18,7 +18,7 @@ router = APIRouter()
 
 @router.post("/", response_model=BearerToken)
 async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db=db_dependency
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency
 ):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
