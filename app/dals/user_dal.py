@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from .. import models, schemas
+from ..crypt import get_password_hash
 
 
 class UserDal:
@@ -20,10 +21,9 @@ class UserDal:
         return self.session.query(models.User).offset(skip).limit(limit).all()
 
     def create_user(self, user: schemas.UserCreate):
-        fake_hashed_password = user.password + "notreallyhashed"
         db_user = models.User(
             email=user.email,
-            hashed_password=fake_hashed_password,
+            hashed_password=get_password_hash(user.password),
         )
         self.session.add(db_user)
         self.session.commit()
