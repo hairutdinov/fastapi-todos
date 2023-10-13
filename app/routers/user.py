@@ -18,7 +18,7 @@ class EmailAlreadyRegistered(HTTPException):
 
 
 def send_email_notification(email: str, message: str):
-    with open('log.txt', 'w') as email_file:
+    with open("log.txt", "w") as email_file:
         content = f"notification for {email}: {message}"
         email_file.write(content)
 
@@ -27,9 +27,7 @@ router = APIRouter()
 
 
 @router.post("/", response_model=schemas.User)
-def create_user(
-    user: schemas.UserCreate, db: db_dependency
-) -> schemas.User:
+def create_user(user: schemas.UserCreate, db: db_dependency) -> schemas.User:
     user_dal = UserDal(db)
     db_user = user_dal.get_user_by_email(email=user.email)
     if db_user:
@@ -57,14 +55,14 @@ def read_user(user_id: Annotated[int, Path(gt=0)], db: db_dependency):
 
 
 @router.post("/{user_id}/todos", response_model=schemas.Todo)
-def create_todo_for_user(
-    user_id: int, todo: schemas.TodoCreate, db: db_dependency
-):
+def create_todo_for_user(user_id: int, todo: schemas.TodoCreate, db: db_dependency):
     user_dal = UserDal(db)
     return user_dal.create_user_todo(user_id=user_id, todo=todo)
 
 
 @router.post("/send-notification/{email}")
-async def create_user(email: str, bgc_task: BackgroundTasks, token: Annotated[str, Depends(oauth2_scheme)]) -> dict:
+async def create_user(
+    email: str, bgc_task: BackgroundTasks, token: Annotated[str, Depends(oauth2_scheme)]
+) -> dict:
     bgc_task.add_task(send_email_notification, email=email, message="Some notification")
     return {"message": "Notification sent in the background"}

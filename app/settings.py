@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 ROOT_DIR = Path(".").absolute()
-APP_DIR = ROOT_DIR / 'app'
+APP_DIR = ROOT_DIR / "app"
 
 env = Env()
 env.read_envfile(ROOT_DIR / ".env")
@@ -21,6 +21,5 @@ ALGORITHM = env.str("ALGORITHM", default="HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = env.int("ACCESS_TOKEN_EXPIRE_MINUTES", default=30)
 
 DATABASE_URL = env.str(
-    "DB_URL",
-    default=f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+    "DB_URL", default=f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 )

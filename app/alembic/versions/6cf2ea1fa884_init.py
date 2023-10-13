@@ -11,7 +11,7 @@ from sqlalchemy import Integer, Column, String, Boolean, ForeignKey
 
 
 # revision identifiers, used by Alembic.
-revision = '6cf2ea1fa884'
+revision = "6cf2ea1fa884"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,10 +33,15 @@ def upgrade() -> None:
         Column("description", String),
         Column("priority", Integer, nullable=False),
         Column("complete", Boolean, default=False),
-        Column("user_id", Integer, ForeignKey("user.id", ondelete="RESTRICT"), nullable=False),
+        Column(
+            "user_id",
+            Integer,
+            ForeignKey("user.id", ondelete="RESTRICT"),
+            nullable=False,
+        ),
     )
 
 
 def downgrade() -> None:
-    op.drop_table('todo')
-    op.drop_table('user')
+    op.drop_table("todo")
+    op.drop_table("user")

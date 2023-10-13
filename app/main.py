@@ -32,12 +32,18 @@ class Item(BaseModel):
     description: str | None = None
 
 
-@app.post("/items", dependencies=[Depends(get_token_header)], response_model=Item, status_code=201)
+@app.post(
+    "/items",
+    dependencies=[Depends(get_token_header)],
+    response_model=Item,
+    status_code=201,
+)
 async def create_item(item: Item) -> Item:
     if item.id in fake_db:
         raise HTTPException(status_code=400, detail="Item already exists")
     fake_db[item.id] = item
     return item
+
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=DEBUG)

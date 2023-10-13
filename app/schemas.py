@@ -47,7 +47,7 @@ class Token(BaseModel):
 
 
 class BearerToken(Token):
-    token_type: str = 'bearer'
+    token_type: str = "bearer"
 
 
 class TokenData(BaseModel):
