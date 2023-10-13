@@ -35,3 +35,20 @@ class User(UserBase, TunedModel):
     id: int
     is_active: bool
     todos: list[Todo] = []
+
+
+class UserRead(User):
+    hashed_password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class BearerToken(Token):
+    token_type: str = 'bearer'
+
+
+class TokenData(BaseModel):
+    email: str | None = None

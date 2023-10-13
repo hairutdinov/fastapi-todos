@@ -4,9 +4,7 @@ from fastapi.exceptions import HTTPException
 from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 
-from . import models
-from .database import engine
-from .routers import todo, user
+from .routers import todo, user, token
 from .dependencies import get_token_header
 from .settings import DEBUG
 
@@ -18,6 +16,7 @@ main_api_router = APIRouter()
 
 main_api_router.include_router(todo.router, prefix="/todos", tags=["todo"])
 main_api_router.include_router(user.router, prefix="/users", tags=["user"])
+main_api_router.include_router(token.router, prefix="/token", tags=["token"])
 
 app.include_router(main_api_router)
 
