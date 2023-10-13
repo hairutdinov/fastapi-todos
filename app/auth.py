@@ -10,6 +10,7 @@ from .settings import SECRET_KEY, ALGORITHM
 from .schemas import TokenData
 from .dals.user_dal import UserDal
 from .models import User
+from .database import db_dependency
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -36,7 +37,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     return encoded_jwt
 
 
-async def get_current_user(db: Session, token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db=db_dependency) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -58,7 +59,7 @@ async def get_current_user(db: Session, token: Annotated[str, Depends(oauth2_sch
 
 
 async def get_current_active_user(
-    current_user: Annotated[Any, Depends(get_current_user)]
+    current_user: Annotated[User, Depends(get_current_user)]
 ):
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")

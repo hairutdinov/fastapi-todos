@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 
 
-from ..database import get_db
+from ..database import db_dependency
 from ..auth import authenticate_user, create_access_token
 from ..schemas import BearerToken
 from ..settings import ACCESS_TOKEN_EXPIRE_MINUTES
@@ -18,7 +18,7 @@ router = APIRouter()
 
 @router.post("/", response_model=BearerToken)
 async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db=db_dependency
 ):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
